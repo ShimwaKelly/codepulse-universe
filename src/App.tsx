@@ -12,6 +12,7 @@ import AITool from "@/components/AITool";
 // Pages
 import Index from "./pages/Index";
 import SignUp from "./pages/SignUp";
+import Login from "./pages/Login"; // New login page
 import Dashboard from "./pages/Dashboard";
 import Courses from "./pages/Courses";
 import SingleCourse from "./pages/SingleCourse";
@@ -32,13 +33,13 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col grid-background">
+          <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1 container mx-auto px-4 py-8">
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path="/login" element={<Index />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/courses/:id" element={<SingleCourse />} />

@@ -1,32 +1,12 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, ArrowRight, Code, BookOpen, Trophy } from 'lucide-react';
+import { BookOpen, Code, Trophy } from 'lucide-react';
 
 const Index = () => {
   const { isKidsMode } = useTheme();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isParentalAuth, setIsParentalAuth] = useState(false);
-  const [showParentEmail, setShowParentEmail] = useState(false);
 
   return (
     <div className={`flex flex-col lg:flex-row gap-12 items-center min-h-[calc(100vh-16rem)] mt-8 ${isKidsMode ? 'kids-background' : 'digital-rain'}`}>
@@ -59,177 +39,34 @@ const Index = () => {
             <span>Earn Certificates</span>
           </div>
         </div>
+
+        <div className="flex flex-wrap gap-4 justify-center lg:justify-start mt-8">
+          <Button 
+            size="lg" 
+            className={`px-8 ${isKidsMode ? 'kids-button text-xl py-6' : ''}`}
+            asChild
+          >
+            <Link to="/signup">Sign Up Free</Link>
+          </Button>
+          
+          <Button 
+            size="lg"
+            variant="outline" 
+            className={`px-8 ${isKidsMode ? 'border-kids-primary text-kids-primary hover:bg-kids-primary/10 text-xl py-6' : ''}`}
+            asChild
+          >
+            <Link to="/login">Login</Link>
+          </Button>
+        </div>
       </div>
       
-      {/* Right side - Auth form */}
+      {/* Right side - Image or illustration */}
       <div className="w-full max-w-md">
-        <Card className={isKidsMode ? 'kids-card' : 'glass-card hover-glow'}>
-          <Tabs defaultValue="login" className="w-full">
-            <TabsList className={`grid w-full grid-cols-2 ${isKidsMode ? 'bg-kids-muted' : ''}`}>
-              <TabsTrigger value="login" className={isKidsMode ? 'text-lg data-[state=active]:bg-kids-primary data-[state=active]:text-white' : ''}>Login</TabsTrigger>
-              <TabsTrigger value="signup" className={isKidsMode ? 'text-lg data-[state=active]:bg-kids-primary data-[state=active]:text-white' : ''}>Sign Up</TabsTrigger>
-            </TabsList>
-            
-            {/* Login Tab */}
-            <TabsContent value="login">
-              <form>
-                <CardHeader>
-                  <CardTitle className={isKidsMode ? 'text-2xl text-kids-primary' : ''}>Welcome back</CardTitle>
-                  <CardDescription className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>
-                    Enter your credentials to access your account
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Email</Label>
-                    <Input id="email" type="email" placeholder="hello@example.com" className={isKidsMode ? 'h-12 text-lg' : ''} />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="password" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Password</Label>
-                    <div className="relative">
-                      <Input 
-                        id="password" 
-                        type={showPassword ? "text" : "password"} 
-                        className={isKidsMode ? 'h-12 text-lg pr-10' : 'pr-10'} 
-                      />
-                      <button 
-                        type="button"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff size={isKidsMode ? 24 : 18} /> : <Eye size={isKidsMode ? 24 : 18} />}
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="remember" className={isKidsMode ? 'h-5 w-5 data-[state=checked]:bg-kids-primary data-[state=checked]:border-kids-primary' : ''} />
-                    <label 
-                      htmlFor="remember" 
-                      className={`text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${isKidsMode ? 'text-kids-foreground text-base' : ''}`}
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </CardContent>
-                
-                <CardFooter>
-                  <Button 
-                    className={`w-full ${isKidsMode ? 'kids-button text-xl py-6' : ''}`}
-                    asChild
-                  >
-                    <Link to="/dashboard">
-                      Login
-                      <ArrowRight size={isKidsMode ? 20 : 16} className="ml-2" />
-                    </Link>
-                  </Button>
-                </CardFooter>
-              </form>
-            </TabsContent>
-            
-            {/* Sign Up Tab */}
-            <TabsContent value="signup">
-              <form>
-                <CardHeader>
-                  <CardTitle className={isKidsMode ? 'text-2xl text-kids-primary' : ''}>Create an account</CardTitle>
-                  <CardDescription className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>
-                    Enter your information to create an account
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Name</Label>
-                    <Input id="signup-name" placeholder="John Doe" className={isKidsMode ? 'h-12 text-lg' : ''} />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Email</Label>
-                    <Input id="signup-email" type="email" placeholder="hello@example.com" className={isKidsMode ? 'h-12 text-lg' : ''} />
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Password</Label>
-                    <div className="relative">
-                      <Input 
-                        id="signup-password" 
-                        type={showPassword ? "text" : "password"} 
-                        className={isKidsMode ? 'h-12 text-lg pr-10' : 'pr-10'} 
-                      />
-                      <button 
-                        type="button"
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? <EyeOff size={isKidsMode ? 24 : 18} /> : <Eye size={isKidsMode ? 24 : 18} />}
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="parental" 
-                      checked={isParentalAuth}
-                      onCheckedChange={(checked) => {
-                        setIsParentalAuth(checked === true);
-                        setShowParentEmail(checked === true);
-                      }}
-                      className={isKidsMode ? 'h-5 w-5 data-[state=checked]:bg-kids-primary data-[state=checked]:border-kids-primary' : ''}
-                    />
-                    <label 
-                      htmlFor="parental" 
-                      className={`text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${isKidsMode ? 'text-kids-foreground text-base' : ''}`}
-                    >
-                      I am under 13 years old (requires parental authorization)
-                    </label>
-                  </div>
-                  
-                  {showParentEmail && (
-                    <div className="space-y-2 animate-fade-in">
-                      <Label htmlFor="parent-email" className={isKidsMode ? 'text-kids-foreground text-lg' : ''}>Parent/Guardian Email</Label>
-                      <Input id="parent-email" type="email" placeholder="parent@example.com" className={isKidsMode ? 'h-12 text-lg' : ''} />
-                      <p className={`text-xs ${isKidsMode ? 'text-kids-foreground text-sm' : 'text-muted-foreground'}`}>
-                        We'll send an authorization code to your parent or guardian
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="terms" className={isKidsMode ? 'h-5 w-5 data-[state=checked]:bg-kids-primary data-[state=checked]:border-kids-primary' : ''} />
-                    <label 
-                      htmlFor="terms" 
-                      className={`text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${isKidsMode ? 'text-kids-foreground text-base' : ''}`}
-                    >
-                      I agree to the terms and conditions
-                    </label>
-                  </div>
-                </CardContent>
-                
-                <CardFooter>
-                  {showParentEmail ? (
-                    <Button 
-                      className={`w-full ${isKidsMode ? 'kids-button text-xl py-6' : ''}`}
-                    >
-                      Send Code to Parent
-                    </Button>
-                  ) : (
-                    <Button 
-                      className={`w-full ${isKidsMode ? 'kids-button text-xl py-6' : ''}`}
-                      asChild
-                    >
-                      <Link to="/dashboard">
-                        Create Account
-                        <ArrowRight size={isKidsMode ? 20 : 16} className="ml-2" />
-                      </Link>
-                    </Button>
-                  )}
-                </CardFooter>
-              </form>
-            </TabsContent>
-          </Tabs>
-        </Card>
+        <img 
+          src="https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?w=600&auto=format&fit=crop" 
+          alt="Children learning to code" 
+          className="w-full h-auto rounded-2xl shadow-2xl"
+        />
       </div>
     </div>
   );

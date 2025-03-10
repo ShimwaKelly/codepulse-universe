@@ -11,6 +11,7 @@ interface CodeEditorProps {
   height?: string;
   language?: string;
   readOnly?: boolean;
+  theme?: string; // Add theme prop
   onRun?: (code: string) => void;
   onCheck?: (code: string) => void;
   onChange?: (code: string) => void;
@@ -25,6 +26,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   height = '300px',
   language = 'javascript',
   readOnly = false,
+  theme: themeProp, // Theme prop from parent
   onRun,
   onCheck,
   onChange,
@@ -96,6 +98,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     }
   };
 
+  // Determine which theme to use - either from props or from context
+  const activeTheme = themeProp || (theme === 'dark' ? 'vs-dark' : 'light');
+
   return (
     <div className={`flex flex-col rounded-xl overflow-hidden border ${isKidsMode ? 'border-4 border-kids-primary shadow-lg' : 'border-border'}`}>
       <div className={`flex justify-between items-center px-4 py-2 ${isKidsMode ? 'bg-kids-primary text-white' : 'bg-secondary text-foreground'}`}>
@@ -135,8 +140,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           padding: '1rem',
           fontSize: isKidsMode ? '1.125rem' : '0.875rem',
           lineHeight: '1.5',
-          background: theme === 'dark' ? '#1e1e1e' : '#f8f8f8',
-          color: theme === 'dark' ? '#d4d4d4' : '#1e1e1e'
+          background: activeTheme === 'vs-dark' ? '#1e1e1e' : '#f8f8f8',
+          color: activeTheme === 'vs-dark' ? '#d4d4d4' : '#1e1e1e'
         }}
         className={`w-full focus:outline-none transition-colors code-font`}
       />
