@@ -36,13 +36,13 @@
     
     --radius: 0.75rem;
 
-    /* Kids mode */
-    --kids-background: 275 100% 95%;
-    --kids-foreground: 275 100% 25%;
-    --kids-primary: 326 100% 60%;
-    --kids-secondary: 186 100% 70%;
-    --kids-accent: 130 70% 70%;
-    --kids-muted: 275 30% 85%;
+    /* Kids mode - updated with orange, green and blue tones */
+    --kids-background: 210 100% 98%;
+    --kids-foreground: 210 100% 20%;
+    --kids-primary: 25 100% 55%;  /* Orange */
+    --kids-secondary: 145 70% 60%; /* Green */
+    --kids-accent: 210 100% 65%;   /* Blue */
+    --kids-muted: 210 30% 90%;
   }
   
   .dark {
