@@ -6,39 +6,69 @@ import { Play, Check } from 'lucide-react';
 
 interface CodeEditorProps {
   initialCode?: string;
+  code?: string;
+  value?: string;
   height?: string;
   language?: string;
   readOnly?: boolean;
   onRun?: (code: string) => void;
   onCheck?: (code: string) => void;
+  onChange?: (code: string) => void;
+  setCode?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Simple code editor component (in a real app, you would use Monaco Editor)
 const CodeEditor: React.FC<CodeEditorProps> = ({
   initialCode = '// Write your code here',
+  code,
+  value,
   height = '300px',
   language = 'javascript',
   readOnly = false,
   onRun,
-  onCheck
+  onCheck,
+  onChange,
+  setCode: setCodeProp
 }) => {
   const { theme, isKidsMode } = useTheme();
-  const [code, setCode] = useState(initialCode);
+  const [internalCode, setInternalCode] = useState(code || value || initialCode);
   const editorRef = useRef<HTMLTextAreaElement>(null);
+
+  // Update internal code when props change
+  useEffect(() => {
+    if (code !== undefined && code !== internalCode) {
+      setInternalCode(code);
+    } else if (value !== undefined && value !== internalCode) {
+      setInternalCode(value);
+    }
+  }, [code, value, internalCode]);
+
+  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newCode = e.target.value;
+    setInternalCode(newCode);
+    
+    // Call the appropriate callback/setter
+    if (onChange) {
+      onChange(newCode);
+    }
+    if (setCodeProp) {
+      setCodeProp(newCode);
+    }
+  };
 
   const handleRun = () => {
     if (onRun) {
-      onRun(code);
+      onRun(internalCode);
     } else {
-      console.log('Code executed:', code);
+      console.log('Code executed:', internalCode);
     }
   };
 
   const handleCheck = () => {
     if (onCheck) {
-      onCheck(code);
+      onCheck(internalCode);
     } else {
-      console.log('Code checked:', code);
+      console.log('Code checked:', internalCode);
     }
   };
 
@@ -49,13 +79,19 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       const end = editorRef.current!.selectionEnd;
       
       // Insert 2 spaces when tab is pressed
-      const newCode = code.substring(0, start) + '  ' + code.substring(end);
-      setCode(newCode);
+      const newCode = internalCode.substring(0, start) + '  ' + internalCode.substring(end);
+      setInternalCode(newCode);
+      
+      // Call callbacks
+      if (onChange) onChange(newCode);
+      if (setCodeProp) setCodeProp(newCode);
       
       // Move cursor to the right position
       setTimeout(() => {
-        editorRef.current!.selectionStart = start + 2;
-        editorRef.current!.selectionEnd = start + 2;
+        if (editorRef.current) {
+          editorRef.current.selectionStart = start + 2;
+          editorRef.current.selectionEnd = start + 2;
+        }
       }, 0);
     }
   };
@@ -88,8 +124,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       
       <textarea
         ref={editorRef}
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
+        value={internalCode}
+        onChange={handleCodeChange}
         onKeyDown={handleKeyDown}
         readOnly={readOnly}
         style={{ 
