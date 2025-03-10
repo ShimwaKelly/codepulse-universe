@@ -19,6 +19,7 @@ const SingleCourse = () => {
     id: parseInt(id as string),
     title: "React Framework",
     description: "Master React and build modern web applications with the most popular JavaScript library for building user interfaces.",
+    imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&auto=format&fit=crop",
     longDescription: "This comprehensive course takes you from React basics to advanced concepts. You'll learn about component architecture, state management with hooks and Redux, routing with React Router, and how to build performant applications. By the end of the course, you'll be able to build complete React applications from scratch.",
     level: "Advanced",
     duration: "8 weeks",
@@ -59,17 +60,29 @@ const SingleCourse = () => {
 
   return (
     <div className="space-y-8">
+      <div className="relative mb-6 overflow-hidden rounded-xl">
+        <img 
+          src={course.imageUrl} 
+          alt={course.title}
+          className="w-full h-60 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+          <div className="p-6 w-full">
+            <div className="flex items-center gap-2">
+              <h1 className={`text-4xl font-bold text-white`}>{course.title}</h1>
+              <Badge variant="outline" className="text-white border-white">
+                {course.level}
+              </Badge>
+            </div>
+            <p className="text-lg text-white/90 mt-2">
+              {course.description}
+            </p>
+          </div>
+        </div>
+      </div>
+      
       <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start">
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <h1 className={`text-4xl font-bold ${isKidsMode ? 'text-kids-foreground' : ''}`}>{course.title}</h1>
-            <Badge variant="outline" className={isKidsMode ? 'text-kids-primary border-kids-primary' : ''}>
-              {course.level}
-            </Badge>
-          </div>
-          <p className={`text-lg ${isKidsMode ? 'text-kids-foreground' : 'text-muted-foreground'}`}>
-            {course.description}
-          </p>
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />

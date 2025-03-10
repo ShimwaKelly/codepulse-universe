@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTheme } from '@/contexts/ThemeContext';
-import { Clock, Code, Star, Award, BookOpen, Cpu, Database, Ghost, Shield, Moon } from 'lucide-react';
+import { Clock, Star, Award, BookOpen } from 'lucide-react';
 
-// Mock courses data
+// Mock courses data with image URLs
 const courses = [
   {
     id: 1,
@@ -20,7 +20,7 @@ const courses = [
     enrolled: 2345,
     rating: 4.7,
     isNew: true,
-    icon: <Code className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1621839673705-6617adf9e890?w=500&auto=format&fit=crop",
     tags: ["Frontend", "Web"]
   },
   {
@@ -33,7 +33,7 @@ const courses = [
     enrolled: 1876,
     rating: 4.9,
     isNew: false,
-    icon: <BookOpen className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=500&auto=format&fit=crop",
     tags: ["Frontend", "Programming"]
   },
   {
@@ -46,7 +46,7 @@ const courses = [
     enrolled: 1243,
     rating: 4.8,
     isNew: false,
-    icon: <Cpu className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&auto=format&fit=crop",
     tags: ["Frontend", "Framework"]
   },
   {
@@ -59,7 +59,7 @@ const courses = [
     enrolled: 3421,
     rating: 4.6,
     isNew: false,
-    icon: <Database className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1526379879527-8559ecfcb0c8?w=500&auto=format&fit=crop",
     tags: ["Backend", "Programming"]
   },
   {
@@ -72,7 +72,7 @@ const courses = [
     enrolled: 967,
     rating: 4.5,
     isNew: true,
-    icon: <Ghost className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop",
     tags: ["Data Science", "AI"]
   },
   {
@@ -85,7 +85,7 @@ const courses = [
     enrolled: 789,
     rating: 4.7,
     isNew: false,
-    icon: <Shield className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?w=500&auto=format&fit=crop",
     tags: ["Security", "IT"]
   },
   {
@@ -98,7 +98,7 @@ const courses = [
     enrolled: 654,
     rating: 4.9,
     isNew: true,
-    icon: <Moon className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop",
     tags: ["Frontend", "Backend", "Framework"]
   },
   {
@@ -111,7 +111,7 @@ const courses = [
     enrolled: 1432,
     rating: 4.6,
     isNew: false,
-    icon: <Cpu className="h-10 w-10" />,
+    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&auto=format&fit=crop",
     tags: ["Backend", "Programming"]
   }
 ];
@@ -173,21 +173,25 @@ const Courses = () => {
         {filteredCourses.map((course) => (
           <Link to={`/courses/${course.id}`} key={course.id} className="transition-all hover-lift">
             <Card className={`h-full overflow-hidden ${isKidsMode ? 'border-4 border-kids-secondary shadow-lg' : 'hover:shadow-md'}`}>
-              <CardHeader className={`relative pb-2 ${isKidsMode ? 'bg-kids-accent/10' : ''}`}>
-                <div className="mb-2 flex justify-center">
-                  {course.icon}
-                </div>
+              <div className="relative w-full h-40 overflow-hidden">
+                <img 
+                  src={course.imageUrl} 
+                  alt={course.title}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                {course.isNew && (
+                  <Badge className="absolute right-4 top-4 bg-black text-white dark:bg-white dark:text-black px-2 py-1 text-xs font-semibold rounded-full animate-pulse">
+                    NEW
+                  </Badge>
+                )}
+              </div>
+              <CardHeader className={`pb-2 ${isKidsMode ? 'bg-kids-accent/10' : ''}`}>
                 <CardTitle className={`text-xl ${isKidsMode ? 'text-kids-primary' : ''}`}>
                   {course.title}
                 </CardTitle>
                 <CardDescription className={isKidsMode ? 'text-kids-foreground text-base' : ''}>
                   {course.description}
                 </CardDescription>
-                {course.isNew && (
-                  <Badge className="absolute right-4 top-4 bg-black text-white dark:bg-white dark:text-black px-2 py-1 text-xs font-semibold rounded-full animate-pulse">
-                    NEW
-                  </Badge>
-                )}
               </CardHeader>
               <CardContent className="pb-2">
                 <div className="flex flex-wrap gap-2 mb-4">

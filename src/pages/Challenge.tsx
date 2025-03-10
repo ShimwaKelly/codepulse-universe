@@ -8,6 +8,14 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ArrowRight, Timer, AlertCircle, Terminal, Check, X } from 'lucide-react';
 import CodeEditor from '@/components/CodeEditor';
 
+// Create a type for the CodeEditor props to fix the TypeScript error
+interface CodeEditorProps {
+  code: string;
+  setCode: React.Dispatch<React.SetStateAction<string>>;
+  language: string;
+  theme: string;
+}
+
 const Challenge = () => {
   const { id, challengeId } = useParams();
   const { isKidsMode } = useTheme();
@@ -21,6 +29,7 @@ const Challenge = () => {
     id: parseInt(challengeId as string),
     courseId: parseInt(id as string),
     title: "String Reversal Challenge",
+    imageUrl: "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?w=600&auto=format&fit=crop",
     difficulty: "Medium",
     points: 100,
     timeLimit: 30, // Minutes
@@ -78,22 +87,32 @@ const Challenge = () => {
       </div>
       
       {/* Challenge header */}
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className={`text-3xl font-bold ${isKidsMode ? 'text-kids-foreground' : ''}`}>
-            Challenge #{challenge.id}: {challenge.title}
-          </h1>
-          <Badge className={isKidsMode ? 'bg-kids-accent text-white' : ''}>
-            {challenge.difficulty}
-          </Badge>
-          <Badge variant="outline" className={isKidsMode ? 'border-kids-primary text-kids-primary' : ''}>
-            {challenge.points} points
-          </Badge>
+      <div className="relative rounded-xl overflow-hidden mb-6">
+        <img 
+          src={challenge.imageUrl} 
+          alt={challenge.title}
+          className="w-full h-40 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+          <div className="p-4 w-full">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-3xl font-bold text-white">
+                Challenge #{challenge.id}: {challenge.title}
+              </h1>
+              <Badge className="bg-white text-black">
+                {challenge.difficulty}
+              </Badge>
+              <Badge variant="outline" className="border-white text-white">
+                {challenge.points} points
+              </Badge>
+            </div>
+          </div>
         </div>
-        <p className={`text-lg ${isKidsMode ? 'text-kids-foreground' : 'text-muted-foreground'}`}>
-          {challenge.description}
-        </p>
       </div>
+      
+      <p className={`text-lg ${isKidsMode ? 'text-kids-foreground' : 'text-muted-foreground'}`}>
+        {challenge.description}
+      </p>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Instructions & Examples */}
@@ -180,8 +199,8 @@ const Challenge = () => {
             <CardContent>
               <div className="h-[400px] border rounded-md overflow-hidden">
                 <CodeEditor
-                  value={code}
-                  onChange={setCode}
+                  code={code}
+                  setCode={setCode}
                   language="javascript"
                   theme={isKidsMode ? "light" : "vs-dark"}
                 />

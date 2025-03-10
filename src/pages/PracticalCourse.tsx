@@ -10,6 +10,14 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, ArrowRight, CheckCircle, InfoIcon, BookOpen, Video, Terminal, Award } from 'lucide-react';
 import CodeEditor from '@/components/CodeEditor';
 
+// Create a type for the CodeEditor props to fix the TypeScript error
+interface CodeEditorProps {
+  code: string;
+  setCode: React.Dispatch<React.SetStateAction<string>>;
+  language: string;
+  theme: string;
+}
+
 const PracticalCourse = () => {
   const { id, moduleId } = useParams();
   const { isKidsMode } = useTheme();
@@ -24,6 +32,7 @@ const PracticalCourse = () => {
     courseId: parseInt(id as string),
     title: "useState and useEffect",
     description: "Learn how to manage state and side effects in functional components",
+    imageUrl: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=800&auto=format&fit=crop",
     progress: 45,
     videoUrl: "https://www.youtube.com/watch?v=O6P86uwfdR0", // placeholder
     isCompleted: false,
@@ -201,14 +210,23 @@ export default Counter;`,
         </div>
       </div>
       
-      {/* Module header */}
-      <div className="space-y-4">
-        <h1 className={`text-3xl font-bold ${isKidsMode ? 'text-kids-foreground' : ''}`}>
-          {module.id}. {module.title}
-        </h1>
-        <p className={`text-lg ${isKidsMode ? 'text-kids-foreground' : 'text-muted-foreground'}`}>
-          {module.description}
-        </p>
+      {/* Module header with image */}
+      <div className="relative rounded-xl overflow-hidden mb-4">
+        <img 
+          src={module.imageUrl} 
+          alt={module.title}
+          className="w-full h-40 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+          <div className="p-4 w-full">
+            <h1 className="text-3xl font-bold text-white">
+              {module.id}. {module.title}
+            </h1>
+            <p className="text-lg text-white/90 mt-1">
+              {module.description}
+            </p>
+          </div>
+        </div>
       </div>
       
       {/* Module content tabs */}
@@ -348,8 +366,8 @@ export default Counter;`,
                 
                 <div className="h-[400px] border rounded-md overflow-hidden">
                   <CodeEditor
-                    value={code}
-                    onChange={setCode}
+                    code={code}
+                    setCode={setCode}
                     language="javascript"
                     theme={isKidsMode ? "light" : "vs-dark"}
                   />
